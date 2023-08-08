@@ -23,11 +23,14 @@ Run through console
 python main.py
 ```
 
+`Ctrl + C` to stop
+
 TODO
 ----
 
 - Better settings
-
+- Tray icon
+  
 Credits
 ----
  
