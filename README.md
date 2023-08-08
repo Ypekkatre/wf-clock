@@ -10,9 +10,12 @@ Overlay for Warframe on Linux that shows the remaining time at Plains of Eidolon
 Requirements
 ----
 
-- python-requests
-- python-pyqt5
-- python-xlib
+1. Linux
+   - python-requests
+   - python-pyqt5
+   - python-xlib
+2. Windows
+   - requirements.txt
 
 Usage
 ----
