@@ -20,7 +20,7 @@ Usage
 Run through console
 
 ```
-python main.py
+python wf-clock.py
 ```
 
 `Ctrl + C` to stop
