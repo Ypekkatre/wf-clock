@@ -1,0 +1,8 @@
+requests
+sys
+os
+json
+time
+threading
+PyQt5
+python-xlib
