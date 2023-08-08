@@ -31,8 +31,8 @@ python wf-clock.py
 TODO
 ----
 
-- Better settings
-- Tray icon
+- [ ] Better settings
+- [ ] Tray icon
   
 Credits
 ----
