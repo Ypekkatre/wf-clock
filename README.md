@@ -14,6 +14,15 @@ Requirements
 - python-pyqt5
 - python-xlib
 
+Usage
+----
+
+Run through console
+
+```
+python main.py
+```
+
 TODO
 ----
 
