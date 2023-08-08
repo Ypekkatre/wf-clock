@@ -1,5 +1,5 @@
 
-Another Warframe Overlay Clock
+Another Warframe Clock Overlay
 ==============================
 
 Overlay for Warframe on Linux that shows the remaining time at Plains of Eidolon.
