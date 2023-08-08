@@ -12,7 +12,7 @@ def get_active_window():
         Name of the currently active window.
     """
     import sys
-    active_window_name = None
+    active_window_name = ""
     if sys.platform in ['linux', 'linux2']:
         xlib = 1
         try:
