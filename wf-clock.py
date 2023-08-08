@@ -73,15 +73,16 @@ class Window_Cetus(QMainWindow):
 		self.resize(width, height)
 		vert = QDesktopWidget().screenGeometry().bottom()
 		self.move(0, vert - height + 3)
-		self.f = QFont("Arial", 30, QFont.Normal)
-
+		self.f = QFont("Arial", 40, QFont.Normal)
+		self.f2 = QFont("Arial", 30, QFont.Normal)
+		
 		self.label = QLabel(CETUS_ICON)
 		self.label.setFont(self.f)
-		self.label.setGeometry(10, 10, 50, 50)
+		self.label.setGeometry(50, 50, 50, 50)
 		self.label.setStyleSheet('color: orange;')
 
 		self.label2 = QLabel(CETUS_DISPLAY)
-		self.label2.setFont(self.f)
+		self.label2.setFont(self.f2)
 		self.label2.setGeometry(width, height, 50, 50)
 
 		self.layout = QGridLayout()
