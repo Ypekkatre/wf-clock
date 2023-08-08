@@ -22,7 +22,11 @@ def get_active_window():
         if xlib is not None:
             display = display.Display()
             window = display.get_input_focus().focus
-            active_window_name = window.get_wm_name()
+            try:
+                if (not isinstance(window, int)):
+                   active_window_name = window.get_wm_name()
+            except AttributeError:
+                   return active_window_name
     elif sys.platform in ['Windows', 'win32', 'cygwin']:
         import win32gui
         window = win32gui.GetForegroundWindow()
