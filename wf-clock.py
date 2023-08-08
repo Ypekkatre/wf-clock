@@ -68,7 +68,7 @@ class Window_Cetus(QMainWindow):
 		self.setWindowFlag(Qt.X11BypassWindowManagerHint)
 		self.setWindowFlag(Qt.FramelessWindowHint)
 		self.setWindowFlag(Qt.WindowStaysOnTopHint)
-		self.setStyleSheet("background-color: transparent")
+		#self.setStyleSheet("background-color: transparent")
 		self.setAttribute(Qt.WA_TranslucentBackground)
 		self.resize(width, height)
 		vert = QDesktopWidget().screenGeometry().bottom()
