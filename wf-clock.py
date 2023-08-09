@@ -29,10 +29,14 @@ global width
 global height
 global alwaysdisplay
 global Position
+global OBSFix
+global FlagsChanged
 width = int(100)
 height = int(70)
 alwaysdisplay = False
 Position = 0
+OBSFix = False
+FlagsChanged = False
 
 #--SETTINGS--#
 
@@ -81,11 +85,12 @@ class Window_Cetus(QMainWindow):
 	sig_requested2 = Signal(int)
 	def __init__(self):
 		super().__init__()
-		self.setWindowFlag(Qt.X11BypassWindowManagerHint)
-		self.setWindowFlag(Qt.FramelessWindowHint)
-		self.setWindowFlag(Qt.WindowStaysOnTopHint)
+		#self.setWindowFlag(Qt.X11BypassWindowManagerHint)
+		#self.setWindowFlag(Qt.FramelessWindowHint)
+		#self.setWindowFlag(Qt.WindowStaysOnTopHint)
 		#self.setStyleSheet("background-color: transparent")
 		self.setAttribute(Qt.WA_TranslucentBackground)
+		self.setWindowFlags(Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
 		self.resize(width, height)
 		vert = QDesktopWidget().screenGeometry().bottom()
 		self.move(0, vert - height + 3)
@@ -137,6 +142,13 @@ class Window_Cetus(QMainWindow):
 			self.move(0, 0)
 		elif Position == 3:
 			self.move(screen.left() + screen.width() - width - 65,0)
+		global FlagsChanged
+		if (OBSFix == True and FlagsChanged == True):
+			self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+			FlagsChanged = False
+		elif FlagsChanged == True:
+			self.setWindowFlags(Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+			FlagsChanged = False
 		if (str(get_active_window()) == "Warframe" or alwaysdisplay):
 			self.setVisible(True)
 		else:
@@ -192,6 +204,11 @@ def Config_Click(menu, query):
 	if q == "Always Display":
 		global alwaysdisplay
 		alwaysdisplay = not alwaysdisplay
+	if q == "OBS Fix":
+		global OBSFix
+		global FlagsChanged
+		OBSFix = not OBSFix
+		FlagsChanged = True
 
 def SetPosition(i):
 	def inner(icon, item):
@@ -215,7 +232,8 @@ def CreateTray():
 					pystray.MenuItem("Bottom Right", SetPosition(1), checked=GetPosition(1), radio=True),
 					pystray.MenuItem("Top Left", SetPosition(2), checked=GetPosition(2), radio=True),
 					pystray.MenuItem("Top Right", SetPosition(3), checked=GetPosition(3), radio=True)
-				))
+				)),
+				pystray.MenuItem("OBS Fix", Config_Click, checked=lambda item: OBSFix)
 			)
 		),
 		pystray.MenuItem("Exit", Tray_Click))
