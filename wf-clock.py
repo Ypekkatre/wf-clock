@@ -28,14 +28,16 @@ App = QApplication(sys.argv)
 global width
 global height
 global alwaysdisplay
+global Position
 width = int(100)
 height = int(70)
 alwaysdisplay = False
+Position = 0
 
 #--SETTINGS--#
 
 width = 100
-height = 70
+height = 75
 
 #------------#
 
@@ -92,7 +94,7 @@ class Window_Cetus(QMainWindow):
 
 		self.label = QLabel(CETUS_ICON)
 		self.label.setFont(self.f)
-		self.label.setGeometry(50, 50, 50, 50)
+		self.label.setGeometry(width, height, 50, 50)
 		self.label.setStyleSheet('color: orange;')
 
 		self.label2 = QLabel(CETUS_DISPLAY)
@@ -126,6 +128,15 @@ class Window_Cetus(QMainWindow):
 		self.label.setText(CETUS_ICON)
 		self.label2.setText(CETUS_DISPLAY)
 	def GetWindow(self):
+		screen = QDesktopWidget().screenGeometry()
+		if (Position == 0): 
+			self.move(0, screen.bottom() - height + 3)
+		elif Position == 1:
+			self.move(screen.left() + screen.width() - width - 65, screen.bottom() - height + 3)
+		elif Position == 2:
+			self.move(0, 0)
+		elif Position == 3:
+			self.move(screen.left() + screen.width() - width - 65,0)
 		if (str(get_active_window()) == "Warframe" or alwaysdisplay):
 			self.setVisible(True)
 		else:
@@ -182,12 +193,29 @@ def Config_Click(menu, query):
 		global alwaysdisplay
 		alwaysdisplay = not alwaysdisplay
 
+def SetPosition(i):
+	def inner(icon, item):
+		global Position
+		Position = i
+	return inner
+
+def GetPosition(i):
+	def inner(item):
+		return Position == i
+	return inner
+
 def CreateTray():
 	tray = pystray.Icon("wf-clock", image, "", menu=pystray.Menu(
 		pystray.MenuItem(
 			"Config",
 			pystray.Menu(
-				pystray.MenuItem("Always Display", Config_Click, checked=lambda item: alwaysdisplay)
+				pystray.MenuItem("Always Display", Config_Click, checked=lambda item: alwaysdisplay),
+				pystray.MenuItem("Position", pystray.Menu(
+					pystray.MenuItem("Bottom Left", SetPosition(0), checked=GetPosition(0), radio=True),
+					pystray.MenuItem("Bottom Right", SetPosition(1), checked=GetPosition(1), radio=True),
+					pystray.MenuItem("Top Left", SetPosition(2), checked=GetPosition(2), radio=True),
+					pystray.MenuItem("Top Right", SetPosition(3), checked=GetPosition(3), radio=True)
+				))
 			)
 		),
 		pystray.MenuItem("Exit", Tray_Click))

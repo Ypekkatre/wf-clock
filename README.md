@@ -33,7 +33,7 @@ Close through tray icon or
 TODO
 ----
 
-- [ ] Better settings
+- [x] Better settings
 - [x] Tray icon
   
 Credits
