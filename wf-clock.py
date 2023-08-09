@@ -18,13 +18,16 @@ missions = js['SyndicateMissions']
 
 global width
 global height
+global alwaysdisplay
 width = int(100)
 height = int(70)
+alwaysdisplay = False
 
 #--SETTINGS--#
 
 width = 100
 height = 70
+alwaysdisplay = False #Display even when Warframe window isn't focused
 
 #------------#
 
@@ -112,7 +115,7 @@ class Window_Cetus(QMainWindow):
 		self.label.setText(CETUS_ICON)
 		self.label2.setText(CETUS_DISPLAY)
 	def GetWindow(self):
-		if (str(get_active_window()) == "Warframe"):
+		if (str(get_active_window()) == "Warframe" or alwaysdisplay):
 			self.setVisible(True)
 		else:
 			self.setVisible(False)
