@@ -5,3 +5,4 @@ threading
 PyQt5
 python-xlib
 pywin32
+pystray

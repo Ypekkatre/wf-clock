@@ -14,6 +14,7 @@ Requirements
    - python-requests
    - python-pyqt5
    - python-xlib
+   - pystray
 2. Windows
    - requirements.txt
 
