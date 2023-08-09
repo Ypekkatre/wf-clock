@@ -9,12 +9,21 @@ from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QVBoxLayout, QWid
 from PyQt5.QtGui import QFont, QPalette
 from PyQt5.QtCore import pyqtSignal as Signal, QObject, Qt, QCoreApplication, QThread, pyqtSignal, pyqtSlot
 from window import *
+import pystray
+from PIL import Image
+
+image = Image.open("icon.png")
 
 r = requests.get('https://content.warframe.com/dynamic/worldState.php')
 
 js = r.json()
 
 missions = js['SyndicateMissions']
+
+global Running
+global App
+Running = True
+App = QApplication(sys.argv)
 
 global width
 global height
@@ -27,7 +36,6 @@ alwaysdisplay = False
 
 width = 100
 height = 70
-alwaysdisplay = False #Display even when Warframe window isn't focused
 
 #------------#
 
@@ -61,6 +69,9 @@ class Tester_Cetus(QObject):
 				self.sig_positions.emit(1)
 				i = 0
 			self.sig_positions2.emit(1)
+			global Running
+			if Running == False:
+				break
 			time.sleep(0.1)
 
 class Window_Cetus(QMainWindow):
@@ -150,15 +161,50 @@ def Monitor_Cetus():
 			CETUS_DISPLAY = "" + readable
 			CETUS_ICON = "🌙"
 		#CETUS_DISPLAY = CETUS_DISPLAY + " " + format + formattim
+		global Running
+		if Running == False:
+			break
 		time.sleep(0.5)
+
+def Tray_Click(tray, query):
+	q = str(query)
+	if q == "Exit":
+		global Running
+		Running = False
+		global App
+		App.quit()
+		os._exit(0)
+		tray.stop()
+
+def Config_Click(menu, query):
+	q = str(query)
+	if q == "Always Display":
+		global alwaysdisplay
+		alwaysdisplay = not alwaysdisplay
+
+def CreateTray():
+	tray = pystray.Icon("wf-clock", image, "", menu=pystray.Menu(
+		pystray.MenuItem(
+			"Config",
+			pystray.Menu(
+				pystray.MenuItem("Always Display", Config_Click, checked=lambda item: alwaysdisplay)
+			)
+		),
+		pystray.MenuItem("Exit", Tray_Click))
+	)
+
+	tray.run()
 
 if __name__ == "__main__":
 
-	t_cetus = threading.Thread(target=Monitor_Cetus)
+	t_tray = threading.Thread(target=CreateTray)
 
+	t_cetus = threading.Thread(target=Monitor_Cetus)
 	t_cetus.start()
 
-	App = QApplication(sys.argv)
 	window = Window_Cetus()
 	window.StartUpdates()
-	sys.exit(App.exec())
+	t_tray.start()
+	App.exec()
+	Running = False
+	sys.exit()
