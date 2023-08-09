@@ -33,7 +33,7 @@ TODO
 ----
 
 - [ ] Better settings
-- [ ] Tray icon
+- [x] Tray icon
   
 Credits
 ----
