@@ -27,7 +27,8 @@ Run through console
 python wf-clock.py
 ```
 
-`Ctrl + C` to stop
+Close through tray icon or
+`Ctrl + C` in console
 
 TODO
 ----
